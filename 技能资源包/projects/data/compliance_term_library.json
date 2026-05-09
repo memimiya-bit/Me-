@@ -1,0 +1,333 @@
+{
+  "version": "7.0",
+  "description": "六维合规术语词库 - 项目管理+合规缝合版",
+  
+  "term_library": [
+    {
+      "term_id": "term_100_cotton",
+      "term": "100%纯棉",
+      "variants": ["纯棉", "全棉", "百分百棉", "100%棉", "全棉材质"],
+      "violation_type": "材质宣称",
+      "regulation": "《纺织品纤维含量的标识》GB/T 29862",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "棉质面料（具体成分以水洗标为准）",
+        "contract": "按约定成分比例供货",
+        "internal": "100%棉（需品质确认后对外使用）"
+      },
+      "applicable_scenes": ["产品描述", "合同条款", "宣传物料", "客户沟通"],
+      "associated_templates": ["tpl_product_listing", "tpl_sample_review"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_best_fabric",
+      "term": "最佳面料",
+      "variants": ["最好面料", "最优面料", "顶级面料", "最好的面料"],
+      "violation_type": "绝对化用语",
+      "regulation": "《广告法》第九条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "优质面料",
+        "contract": "约定品质面料",
+        "internal": "高品质面料"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料"],
+      "associated_templates": ["tpl_product_listing", "tpl_plan_design"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_guarantee_color",
+      "term": "保证不褪色",
+      "variants": ["永不褪色", "绝对不褪色", "保证不变色", "不会褪色"],
+      "violation_type": "虚假承诺",
+      "regulation": "《消费者权益保护法》第二十四条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "色牢度达国家标准",
+        "contract": "按约定色牢度标准检验",
+        "internal": "预计色牢度表现良好"
+      },
+      "applicable_scenes": ["产品描述", "合同条款", "客户沟通"],
+      "associated_templates": ["tpl_product_listing", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_top_craft",
+      "term": "顶级工艺",
+      "variants": ["顶级做工", "最好的工艺", "最优工艺", "第一工艺"],
+      "violation_type": "绝对化用语",
+      "regulation": "《广告法》第九条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "精致工艺",
+        "contract": "约定工艺标准",
+        "internal": "高标准工艺"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料", "方案设计"],
+      "associated_templates": ["tpl_product_listing", "tpl_plan_design"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_lowest_price",
+      "term": "全国最低价",
+      "variants": ["最低价", "全网最低", "最便宜", "史上最低"],
+      "violation_type": "绝对化用语",
+      "regulation": "《广告法》第九条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "竞争力价格",
+        "contract": "约定价格",
+        "internal": "优惠价格"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料", "客户沟通"],
+      "associated_templates": ["tpl_product_listing", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_exclusive_supply",
+      "term": "独家供应",
+      "variants": ["独家提供", "唯一供应商", "独占", "专供"],
+      "violation_type": "排他条款",
+      "regulation": "《反垄断法》",
+      "risk_level": "中",
+      "replacement": {
+        "external_promo": "专项供应",
+        "contract": "按约定供应",
+        "internal": "优先供应"
+      },
+      "applicable_scenes": ["合同条款", "供应商管理"],
+      "associated_templates": ["tpl_supplier_onboard", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_hypoallergenic",
+      "term": "防过敏",
+      "variants": ["抗过敏", "不过敏", "零过敏", "抗敏"],
+      "violation_type": "医疗宣称",
+      "regulation": "《医疗广告管理办法》",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "亲肤面料",
+        "contract": "按约定标准",
+        "internal": "低敏设计"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料"],
+      "associated_templates": ["tpl_product_listing"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_first_brand",
+      "term": "第一品牌",
+      "variants": ["第一", "最好品牌", "最优品牌", "顶级品牌", "领军品牌"],
+      "violation_type": "绝对化用语",
+      "regulation": "《广告法》第九条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "知名品牌",
+        "contract": "约定品牌",
+        "internal": "领先品牌"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料", "方案设计"],
+      "associated_templates": ["tpl_product_listing", "tpl_plan_design"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_guarantee_delivery",
+      "term": "保证交付",
+      "variants": ["准时交付", "按时交付", "一定交付", "绝对准时"],
+      "violation_type": "虚假承诺",
+      "regulation": "《合同法》相关条款",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "按约定时间交付",
+        "contract": "按合同约定时间交付",
+        "internal": "计划内交付"
+      },
+      "applicable_scenes": ["合同条款", "客户沟通", "交期变更"],
+      "associated_templates": ["tpl_customer_contract", "tpl_delivery_change"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_exclusive_cooperation",
+      "term": "独家合作",
+      "variants": ["排他合作", "唯一合作", "独占合作"],
+      "violation_type": "排他条款",
+      "regulation": "《反垄断法》",
+      "risk_level": "中",
+      "replacement": {
+        "external_promo": "优先合作",
+        "contract": "按约定合作范围",
+        "internal": "战略合作"
+      },
+      "applicable_scenes": ["合同条款", "客户沟通"],
+      "associated_templates": ["tpl_customer_contract", "tpl_supplier_onboard"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_best_service",
+      "term": "最优服务",
+      "variants": ["最好服务", "最佳服务", "顶级服务", "第一服务"],
+      "violation_type": "绝对化用语",
+      "regulation": "《广告法》第九条",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "优质服务",
+        "contract": "约定服务水平",
+        "internal": "高质量服务"
+      },
+      "applicable_scenes": ["产品描述", "宣传物料", "合同条款"],
+      "associated_templates": ["tpl_customer_contract", "tpl_plan_design"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_perfect_quality",
+      "term": "完美品质",
+      "variants": ["完美", "无瑕疵", "零缺陷", "绝对完美"],
+      "violation_type": "虚假承诺",
+      "regulation": "《消费者权益保护法》",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "高品质",
+        "contract": "按约定品质标准",
+        "internal": "高标准品质"
+      },
+      "applicable_scenes": ["产品描述", "合同条款", "样品评审"],
+      "associated_templates": ["tpl_product_listing", "tpl_sample_review"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_guarantee_quality",
+      "term": "保证品质",
+      "variants": ["品质保证", "质量保证", "确保品质"],
+      "violation_type": "虚假承诺",
+      "regulation": "《产品质量法》",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "品质符合约定标准",
+        "contract": "按合同约定品质检验",
+        "internal": "品质管控中"
+      },
+      "applicable_scenes": ["合同条款", "样品评审", "客户沟通"],
+      "associated_templates": ["tpl_sample_review", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_on_time",
+      "term": "准时",
+      "variants": ["按时", "准时送达", "准点", "一定准时"],
+      "violation_type": "虚假承诺",
+      "regulation": "《合同法》",
+      "risk_level": "中",
+      "replacement": {
+        "external_promo": "按约定时间",
+        "contract": "按合同约定时间",
+        "internal": "计划内完成"
+      },
+      "applicable_scenes": ["合同条款", "交期变更", "客户沟通"],
+      "associated_templates": ["tpl_delivery_change", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    },
+    {
+      "term_id": "term_guarantee_supply",
+      "term": "保证供货",
+      "variants": ["供货保证", "供应保证", "一定能供货"],
+      "violation_type": "虚假承诺",
+      "regulation": "《合同法》",
+      "risk_level": "高",
+      "replacement": {
+        "external_promo": "按约定供货",
+        "contract": "按合同约定供货",
+        "internal": "计划供货"
+      },
+      "applicable_scenes": ["合同条款", "供应商管理"],
+      "associated_templates": ["tpl_supplier_onboard", "tpl_customer_contract"],
+      "status": "生效",
+      "last_updated": "2026-01-01"
+    }
+  ],
+
+  "six_dimension_structure": {
+    "dimension_1_core_terms": {
+      "description": "核心术语定义",
+      "fields": ["标准词", "变体", "缩写"]
+    },
+    "dimension_2_business_weight": {
+      "description": "业务权重",
+      "scenes": ["产品开发", "供应商对接", "内部沟通", "合同条款", "客户沟通"]
+    },
+    "dimension_3_context_rules": {
+      "description": "上下文规则",
+      "fields": ["触发条件", "排除条件"]
+    },
+    "dimension_4_timing": {
+      "description": "时效属性",
+      "fields": ["有效期", "更新频率", "状态"]
+    },
+    "dimension_5_related_knowledge": {
+      "description": "关联知识",
+      "fields": ["关联流程", "关联文档", "关联角色"]
+    },
+    "dimension_6_compliance": {
+      "description": "合规标记",
+      "fields": ["法规依据", "风险等级", "违规类型", "推荐替换"]
+    }
+  },
+
+  "risk_level_handling": {
+    "高": {
+      "action": "自动拦截+人工审核",
+      "notification": "法务+相关业务部门",
+      "processing_time": "≤3分钟审核",
+      "log_level": "critical"
+    },
+    "中": {
+      "action": "自动替换+通知",
+      "notification": "业务部门",
+      "processing_time": "即时处理",
+      "log_level": "warning"
+    },
+    "低": {
+      "action": "标记+建议",
+      "notification": "执行人",
+      "processing_time": "无需处理",
+      "log_level": "info"
+    }
+  },
+
+  "frequently_asked_replacements": [
+    {
+      "category": "绝对化用语",
+      "replace_with": "高品质/优质/约定标准",
+      "examples": ["第一、最佳、顶级、最好、最新"]
+    },
+    {
+      "category": "承诺类",
+      "replace_with": "按约定/按合同/计划内",
+      "examples": ["保证、一定、绝对、保证做到"]
+    },
+    {
+      "category": "材质宣称",
+      "replace_with": "具体成分+以实物为准/以检测报告为准",
+      "examples": ["100%纯棉、纯天然"]
+    },
+    {
+      "category": "价格宣称",
+      "replace_with": "有竞争力/性价比高/优惠",
+      "examples": ["最低价、最便宜"]
+    }
+  ]
+}

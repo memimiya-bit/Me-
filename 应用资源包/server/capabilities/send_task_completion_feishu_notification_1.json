@@ -1,0 +1,59 @@
+{
+  "id": "send_task_completion_feishu_notification_1",
+  "pluginKey": "@official-plugins/send-feishu-message",
+  "pluginVersion": "1.0.27",
+  "name": "任务完成时自动发送飞书群通知",
+  "description": "当任务完成时，自动向指定飞书群组发送任务完成通知，支持标题配色、正文markdown内容和底部按钮配置。",
+  "icon": "",
+  "paramsSchema": {
+    "required": [
+      "task_name",
+      "task_completion_time",
+      "task_assignee",
+      "task_detail_url"
+    ],
+    "type": "object",
+    "properties": {
+      "task_name": {
+        "type": "string",
+        "description": "已完成的任务名称"
+      },
+      "task_completion_time": {
+        "type": "string",
+        "description": "任务完成时间"
+      },
+      "task_assignee": {
+        "type": "string",
+        "description": "任务负责人名称"
+      },
+      "task_detail_url": {
+        "type": "string",
+        "description": "任务详情页跳转链接"
+      },
+      "notification_content": {
+        "type": "string",
+        "description": "通知正文补充内容（支持markdown格式）"
+      }
+    }
+  },
+  "formValue": {
+    "content": "## 「{{input.task_name}}」已完成\n\n### 完成信息\n- 完成时间：{{input.task_completion_time}}\n- 负责人：{{input.task_assignee}}\n\n{{input.notification_content}}\n\n点击下方按钮查看任务详情。",
+    "buttons": [
+      {
+        "style": "primary",
+        "text": "查看任务详情",
+        "url": "{{input.task_detail_url}}"
+      }
+    ],
+    "sender": "bot",
+    "receiverGroupList": [],
+    "receiverUserList": [],
+    "title": {
+      "text": "✅ 任务完成通知",
+      "color": "#00B42A"
+    }
+  },
+  "createdAt": 1778208715431,
+  "updatedAt": 1778208715431,
+  "createdBy": 7116926511868805123
+}

@@ -1,0 +1,208 @@
+{
+  "workflow": {
+    "name": "任务跟踪自动化工作流",
+    "description": "基于飞书多维表格的自动化任务跟踪系统，包含高优先级任务自动分配和逾期预警功能",
+    "version": "2.0"
+  },
+  "tables": {
+    "task_table": {
+      "name": "任务跟踪",
+      "fields": ["任务名称", "优先级", "负责人", "状态", "截止日期", "逾期提醒", "逾期天数", "备注", "所属项目", "附件", "创建时间", "更新时间"]
+    },
+    "project_table": {
+      "name": "项目管理",
+      "fields": ["项目名称", "项目负责人", "项目状态", "开始日期", "结束日期", "项目描述", "参与成员", "任务总数", "进行中任务", "完成进度"]
+    },
+    "todo_table": {
+      "name": "待办事项",
+      "fields": ["待办名称", "负责人", "截止日期", "状态", "关联任务", "创建时间"]
+    },
+    "member_rotation_table": {
+      "name": "成员轮值表",
+      "fields": ["成员名称", "轮值顺序", "当前任务数", "是否启用"]
+    }
+  },
+  "status_flows": {
+    "task_status": {
+      "待分配": ["进行中", "已完成"],
+      "进行中": ["已完成", "待分配"],
+      "已完成": []
+    }
+  },
+  "triggers": {
+    "high_priority_task_created": {
+      "name": "高优先级任务创建触发",
+      "description": "当新任务创建且优先级为「高」时触发",
+      "event": "record_created",
+      "table": "task_table",
+      "conditions": [
+        {
+          "field": "优先级",
+          "operator": "equals",
+          "value": "高"
+        }
+      ]
+    },
+    "task_updated": {
+      "name": "任务状态更新触发",
+      "description": "当任务状态更新时触发",
+      "event": "record_updated",
+      "table": "task_table",
+      "watch_fields": ["状态", "负责人", "截止日期"]
+    },
+    "overdue_task_check": {
+      "name": "逾期任务检查触发",
+      "description": "定时检查进行中且逾期的任务",
+      "event": "schedule",
+      "cron": "0 9 * * *",
+      "filter": {
+        "状态": "进行中",
+        "截止日期": {"$lt": "{{TODAY}}"}
+      }
+    },
+    "project_progress_update": {
+      "name": "项目进度更新触发",
+      "description": "当任务完成时更新项目进度",
+      "event": "record_updated",
+      "table": "task_table",
+      "conditions": [
+        {
+          "field": "状态",
+          "operator": "equals",
+          "value": "已完成"
+        }
+      ]
+    }
+  },
+  "data_linkages": {
+    "update_project_progress": {
+      "name": "更新项目进度",
+      "description": "当任务状态变更时自动更新关联项目的进度",
+      "source_table": "task_table",
+      "target_table": "project_table",
+      "trigger_field": "状态",
+      "calculation": {
+        "任务总数": "COUNTALL(关联任务)",
+        "进行中任务": "COUNTIF(状态=\"进行中\")",
+        "完成进度": "(任务总数-进行中任务)/任务总数*100"
+      }
+    },
+    "auto_calculate_overdue": {
+      "name": "自动计算逾期状态",
+      "description": "自动计算任务的逾期天数",
+      "source_table": "task_table",
+      "trigger_fields": ["状态", "截止日期"],
+      "formula": "IF(AND({状态}=\"进行中\", {截止日期}<TODAY()), DAYS(TODAY(), {截止日期}), 0)"
+    }
+  },
+  "automation_flows": {
+    "high_priority_auto_assign": {
+      "name": "高优先级任务自动分配流程",
+      "description": "当创建高优先级任务时，自动分配给团队成员并发送通知",
+      "steps": [
+        {
+          "step": 1,
+          "action": "check_conditions",
+          "description": "检查条件：优先级=高 且 负责人=空"
+        },
+        {
+          "step": 2,
+          "action": "get_next_member",
+          "description": "从成员轮值表获取下一位可用成员",
+          "source": "member_rotation_table"
+        },
+        {
+          "step": 3,
+          "action": "update_record",
+          "description": "更新任务：设置负责人为轮值成员，状态为进行中",
+          "target": "task_table"
+        },
+        {
+          "step": 4,
+          "action": "send_notification",
+          "description": "发送飞书消息通知负责人",
+          "template": "high_priority_task_reminder"
+        }
+      ]
+    },
+    "overdue_task_warning": {
+      "name": "逾期任务预警流程",
+      "description": "当任务进行中且超过截止日期时，自动发送预警通知",
+      "steps": [
+        {
+          "step": 1,
+          "action": "check_overdue",
+          "description": "检查任务是否逾期：状态=进行中 且 截止日期<今天"
+        },
+        {
+          "step": 2,
+          "action": "update_record",
+          "description": "更新任务备注，追加逾期提醒信息",
+          "target": "task_table"
+        },
+        {
+          "step": 3,
+          "action": "send_notification",
+          "description": "发送预警消息给负责人和项目主管",
+          "template": "overdue_task_warning"
+        },
+        {
+          "step": 4,
+          "action": "create_todo",
+          "description": "在待办事项表创建跟进任务",
+          "target": "todo_table",
+          "default_deadline": "TODAY()+1"
+        }
+      ]
+    },
+    "task_completion_notification": {
+      "name": "任务完成通知流程",
+      "description": "当任务标记为已完成时，通知相关人员",
+      "steps": [
+        {
+          "step": 1,
+          "action": "check_completion",
+          "description": "检查任务状态是否变更为已完成"
+        },
+        {
+          "step": 2,
+          "action": "update_project",
+          "description": "更新项目表的完成进度",
+          "target": "project_table"
+        },
+        {
+          "step": 3,
+          "action": "send_notification",
+          "description": "发送任务完成通知",
+          "template": "task_completion_notice"
+        }
+      ]
+    }
+  },
+  "notification_templates": {
+    "high_priority_task_reminder": {
+      "name": "高优先级任务提醒",
+      "type": "text_with_link",
+      "content": "【高优先级任务提醒】\n任务：{任务名称}\n优先级：高\n截止时间：{截止日期}\n请尽快处理！",
+      "variables": ["任务名称", "截止日期", "记录链接"]
+    },
+    "overdue_task_warning": {
+      "name": "逾期任务预警",
+      "type": "interactive_card",
+      "content": "【任务逾期预警】\n任务：{任务名称}\n负责人：{负责人}\n逾期天数：{逾期天数}天\n请立即处理！",
+      "variables": ["任务名称", "负责人", "逾期天数", "记录链接"],
+      "actions": [
+        {
+          "type": "button",
+          "text": "立即处理",
+          "url": "{记录链接}"
+        }
+      ]
+    },
+    "task_completion_notice": {
+      "name": "任务完成通知",
+      "type": "text",
+      "content": "【任务完成】\n任务「{任务名称}」已完成\n项目进度已更新至{完成进度}%"
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "data_sources": {
+    "table_name": "数据源配置表",
+    "description": "管理各类数据源的配置信息",
+    "fields": [
+      {"field_name": "数据源ID", "type": 1, "required": true, "description": "数据源唯一标识符(UUID格式)"},
+      {"field_name": "数据源类型", "type": 3, "required": true, "description": "数据类型:笔记/文档/对话/网页/API", "property": {"options": [
+        {"name": "笔记", "color": 0},
+        {"name": "文档", "color": 1},
+        {"name": "对话", "color": 2},
+        {"name": "网页", "color": 3},
+        {"name": "API", "color": 4}
+      ]}},
+      {"field_name": "数据源名称", "type": 1, "required": true, "description": "数据源的显示名称"},
+      {"field_name": "数据源路径", "type": 1, "description": "存储路径或URL地址"},
+      {"field_name": "所有者ID", "type": 1, "required": true, "description": "数据源所有者标识"},
+      {"field_name": "认证配置", "type": 1, "description": "Token和权限等认证信息(JSON)"},
+      {"field_name": "同步频率", "type": 2, "description": "同步间隔(秒),默认300"},
+      {"field_name": "最后同步时间", "type": 5, "description": "最近一次同步的时间戳"},
+      {"field_name": "状态", "type": 3, "description": "数据源状态", "property": {"options": [
+        {"name": "激活", "color": 0},
+        {"name": "停用", "color": 1},
+        {"name": "异常", "color": 2}
+      ]}},
+      {"field_name": "创建时间", "type": 5, "description": "记录创建时间"},
+      {"field_name": "更新时间", "type": 5, "description": "最后修改时间"}
+    ]
+  },
+  "raw_contents": {
+    "table_name": "原始内容表",
+    "description": "存储采集到的原始内容",
+    "fields": [
+      {"field_name": "内容ID", "type": 1, "required": true, "description": "内容唯一标识符"},
+      {"field_name": "数据源ID", "type": 1, "required": true, "description": "关联的数据源"},
+      {"field_name": "内容类型", "type": 3, "description": "内容格式类型", "property": {"options": [
+        {"name": "文本", "color": 0},
+        {"name": "Markdown", "color": 1},
+        {"name": "HTML", "color": 2},
+        {"name": "PDF", "color": 3},
+        {"name": "Word", "color": 4},
+        {"name": "音频", "color": 5},
+        {"name": "视频", "color": 6}
+      ]}},
+      {"field_name": "内容标题", "type": 1, "description": "内容的主标题"},
+      {"field_name": "内容文本", "type": 1, "description": "提取的纯文本内容"},
+      {"field_name": "元数据", "type": 1, "description": "字数、页数、作者等元信息(JSON)"},
+      {"field_name": "内容哈希", "type": 1, "description": "内容指纹(用于去重)"},
+      {"field_name": "文件大小", "type": 2, "description": "文件大小(字节)"},
+      {"field_name": "语言", "type": 1, "description": "内容语言代码,默认zh"},
+      {"field_name": "创建时间", "type": 5, "description": "内容原始创建时间"},
+      {"field_name": "采集时间", "type": 5, "description": "系统采集时间"}
+    ]
+  },
+  "extracted_keywords": {
+    "table_name": "关键词提取表",
+    "description": "存储智能提取的关键词和实体",
+    "fields": [
+      {"field_name": "关键词ID", "type": 1, "required": true, "description": "关键词唯一标识"},
+      {"field_name": "内容ID", "type": 1, "required": true, "description": "关联的内容"},
+      {"field_name": "关键词文本", "type": 1, "required": true, "description": "关键词内容"},
+      {"field_name": "关键词类型", "type": 3, "description": "关键词分类", "property": {"options": [
+        {"name": "主题", "color": 0},
+        {"name": "实体", "color": 1},
+        {"name": "情感", "color": 2},
+        {"name": "优先级", "color": 3},
+        {"name": "分类", "color": 4}
+      ]}},
+      {"field_name": "置信度", "type": 2, "description": "提取置信度(0.00-1.00)"},
+      {"field_name": "起始位置", "type": 2, "description": "在原文中的起始位置"},
+      {"field_name": "结束位置", "type": 2, "description": "在原文中的结束位置"},
+      {"field_name": "相关实体", "type": 1, "description": "关联的实体列表(JSON)"},
+      {"field_name": "权重", "type": 2, "description": "关键词权重值"},
+      {"field_name": "提取时间", "type": 5, "description": "提取操作时间"}
+    ]
+  },
+  "routing_rules": {
+    "table_name": "分流规则表",
+    "description": "配置内容智能分流规则",
+    "fields": [
+      {"field_name": "规则ID", "type": 1, "required": true, "description": "规则唯一标识"},
+      {"field_name": "规则名称", "type": 1, "required": true, "description": "规则显示名称"},
+      {"field_name": "规则描述", "type": 1, "description": "规则的详细说明"},
+      {"field_name": "关键词模式", "type": 1, "required": true, "description": "匹配模式(正则/关键词列表)"},
+      {"field_name": "目标表格", "type": 1, "required": true, "description": "分流目标表格名称"},
+      {"field_name": "优先级", "type": 2, "description": "优先级(数字越小越高)"},
+      {"field_name": "动作类型", "type": 3, "description": "执行的动作", "property": {"options": [
+        {"name": "创建", "color": 0},
+        {"name": "更新", "color": 1},
+        {"name": "合并", "color": 2},
+        {"name": "通知", "color": 3}
+      ]}},
+      {"field_name": "字段映射", "type": 1, "description": "字段转换配置(JSON)"},
+      {"field_name": "条件逻辑", "type": 1, "description": "条件树配置(JSON)"},
+      {"field_name": "是否启用", "type": 4, "description": "规则是否激活"},
+      {"field_name": "创建人", "type": 1, "description": "规则创建者"},
+      {"field_name": "创建时间", "type": 5, "description": "创建时间"},
+      {"field_name": "更新时间", "type": 5, "description": "最后修改时间"}
+    ]
+  },
+  "smart_tables": {
+    "table_name": "智能表格配置表",
+    "description": "管理目标飞书多维表格配置",
+    "fields": [
+      {"field_name": "表格ID", "type": 1, "required": true, "description": "表格唯一标识"},
+      {"field_name": "表格名称", "type": 1, "required": true, "description": "表格显示名称"},
+      {"field_name": "表格描述", "type": 1, "description": "表格用途说明"},
+      {"field_name": "平台类型", "type": 3, "description": "目标平台", "property": {"options": [
+        {"name": "飞书", "color": 0},
+        {"name": "钉钉", "color": 1},
+        {"name": "企业微信", "color": 2},
+        {"name": "自定义", "color": 3}
+      ]}},
+      {"field_name": "平台配置", "type": 1, "required": true, "description": "平台参数(JSON)"},
+      {"field_name": "字段定义", "type": 1, "required": true, "description": "字段配置(JSON)"},
+      {"field_name": "主键字段", "type": 1, "description": "主键字段名"},
+      {"field_name": "同步策略", "type": 3, "description": "同步方式", "property": {"options": [
+        {"name": "实时", "color": 0},
+        {"name": "批量", "color": 1},
+        {"name": "定时", "color": 2}
+      ]}},
+      {"field_name": "所有者ID", "type": 1, "required": true, "description": "表格所有者"},
+      {"field_name": "访问权限", "type": 1, "description": "权限配置(JSON)"},
+      {"field_name": "创建时间", "type": 5, "description": "创建时间"},
+      {"field_name": "更新时间", "type": 5, "description": "最后修改时间"}
+    ]
+  },
+  "processing_tasks": {
+    "table_name": "处理任务表",
+    "description": "跟踪内容处理任务状态",
+    "fields": [
+      {"field_name": "任务ID", "type": 1, "required": true, "description": "任务唯一标识"},
+      {"field_name": "内容ID", "type": 1, "required": true, "description": "关联的内容"},
+      {"field_name": "任务类型", "type": 3, "description": "处理类型", "property": {"options": [
+        {"name": "提取", "color": 0},
+        {"name": "分流", "color": 1},
+        {"name": "更新表格", "color": 2},
+        {"name": "通知", "color": 3}
+      ]}},
+      {"field_name": "任务状态", "type": 3, "description": "执行状态", "property": {"options": [
+        {"name": "待处理", "color": 0},
+        {"name": "处理中", "color": 1},
+        {"name": "已完成", "color": 2},
+        {"name": "失败", "color": 3},
+        {"name": "重试", "color": 4}
+      ]}},
+      {"field_name": "任务结果", "type": 1, "description": "执行结果(JSON)"},
+      {"field_name": "错误信息", "type": 1, "description": "失败原因"},
+      {"field_name": "重试次数", "type": 2, "description": "已重试次数"},
+      {"field_name": "最大重试", "type": 2, "description": "允许最大重试次数"},
+      {"field_name": "计划时间", "type": 5, "description": "计划执行时间"},
+      {"field_name": "完成时间", "type": 5, "description": "实际完成时间"}
+    ]
+  },
+  "content_notes": {
+    "table_name": "智能笔记表",
+    "description": "处理后的智能笔记和摘要",
+    "fields": [
+      {"field_name": "笔记ID", "type": 1, "required": true, "description": "笔记唯一标识"},
+      {"field_name": "来源内容ID", "type": 1, "description": "原始内容ID"},
+      {"field_name": "笔记标题", "type": 1, "required": true, "description": "笔记标题"},
+      {"field_name": "笔记摘要", "type": 1, "description": "AI生成的摘要"},
+      {"field_name": "核心要点", "type": 1, "description": "关键信息列表"},
+      {"field_name": "相关关键词", "type": 1, "description": "提取的关键词"},
+      {"field_name": "关联项目", "type": 1, "description": "关联的项目名称"},
+      {"field_name": "重要程度", "type": 3, "description": "重要性评级", "property": {"options": [
+        {"name": "高", "color": 0},
+        {"name": "中", "color": 1},
+        {"name": "低", "color": 2}
+      ]}},
+      {"field_name": "创建时间", "type": 5, "description": "笔记创建时间"},
+      {"field_name": "更新时间", "type": 5, "description": "最后修改时间"}
+    ]
+  }
+}

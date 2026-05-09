@@ -1,0 +1,44 @@
+{
+  "id": "task_progress_briefing_generate_1",
+  "pluginKey": "@official-plugins/ai-text-generate",
+  "pluginVersion": "1.0.16",
+  "name": "任务进度简报自动生成",
+  "description": "根据任务数据自动生成简洁的工作汇报，汇总任务进度、完成情况、待办事项等核心信息，适用于日常工作汇报场景。",
+  "icon": "",
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "pending_items": {
+        "type": "string",
+        "description": "待办事项和下一步计划"
+      },
+      "risk_and_challenge": {
+        "type": "string",
+        "description": "遇到的风险和挑战，以及应对措施"
+      },
+      "task_basic_info": {
+        "description": "任务基本信息，包含任务名称、负责人、周期等",
+        "type": "string"
+      },
+      "task_completion_data": {
+        "type": "string",
+        "description": "任务完成数据，包含已完成项、完成率、关键成果等"
+      }
+    },
+    "required": [
+      "task_basic_info",
+      "task_completion_data"
+    ]
+  },
+  "formValue": {
+    "modelID": "87",
+    "modelParams": {
+      "maxTokens": 8192,
+      "temperature": 0.5
+    },
+    "prompt": "你是一位专业的企业行政助理，擅长撰写简洁明了的工作汇报。\n\n请根据以下任务数据生成一份任务进度简报：\n\n任务基本信息：{{input.task_basic_info}}\n任务完成情况：{{input.task_completion_data}}\n待办事项：{{input.pending_items}}\n风险与挑战：{{input.risk_and_challenge}}\n\n简报要求：\n1. 标题：[任务名称]进度简报（YYYY年MM月DD日）\n2. 结构分为三个部分：\n   - 核心概览：用3句话总结任务整体进度和关键成果\n   - 详细进展：分点列出已完成的工作，每个要点不超过20字\n   - 下一步计划：分点列出待办事项和预期完成时间\n3. 语言简洁正式，避免冗余表述\n4. 数据准确客观，重点突出\n5. 整体篇幅控制在300字以内\n\n如果有未提供的信息，请合理省略，不要编造内容。"
+  },
+  "createdAt": 1778209447304,
+  "updatedAt": 1778209447304,
+  "createdBy": 7116926511868805123
+}

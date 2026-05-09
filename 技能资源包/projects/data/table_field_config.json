@@ -1,0 +1,370 @@
+{
+  "field_types": {
+    "text": {
+      "feishu_type": 1,
+      "ui_type": "Text",
+      "description": "单行文本",
+      "property": {}
+    },
+    "number": {
+      "feishu_type": 2,
+      "ui_type": "Number",
+      "description": "数字",
+      "property": {
+        "formatter": "0"
+      }
+    },
+    "single_select": {
+      "feishu_type": 3,
+      "ui_type": "SingleSelect",
+      "description": "单选",
+      "property": {
+        "options": []
+      }
+    },
+    "multi_select": {
+      "feishu_type": 4,
+      "ui_type": "MultiSelect",
+      "description": "多选",
+      "property": {
+        "options": []
+      }
+    },
+    "date": {
+      "feishu_type": 5,
+      "ui_type": "Date",
+      "description": "日期",
+      "property": {
+        "date_formatter": "yyyy/MM/dd",
+        "auto_fill": false
+      }
+    },
+    "user": {
+      "feishu_type": 7,
+      "ui_type": "User",
+      "description": "人员",
+      "property": {
+        "multiple": false
+      }
+    },
+    "multi_user": {
+      "feishu_type": 7,
+      "ui_type": "User",
+      "description": "人员（多选）",
+      "property": {
+        "multiple": true
+      }
+    },
+    "checkbox": {
+      "feishu_type": 17,
+      "ui_type": "Checkbox",
+      "description": "复选框",
+      "property": {}
+    },
+    "url": {
+      "feishu_type": 1,
+      "ui_type": "Text",
+      "description": "链接",
+      "property": {}
+    },
+    "phone": {
+      "feishu_type": 1,
+      "ui_type": "Text",
+      "description": "电话",
+      "property": {}
+    },
+    "attachment": {
+      "feishu_type": 10,
+      "ui_type": "Attachment",
+      "description": "附件",
+      "property": {}
+    },
+    "lookup": {
+      "feishu_type": 19,
+      "ui_type": "Lookup",
+      "description": "查找引用",
+      "property": {}
+    },
+    "formula": {
+      "feishu_type": 20,
+      "ui_type": "Formula",
+      "description": "公式",
+      "property": {
+        "formula_expression": ""
+      }
+    },
+    "created_time": {
+      "feishu_type": 1001,
+      "ui_type": "CreatedTime",
+      "description": "创建时间",
+      "property": {}
+    },
+    "modified_time": {
+      "feishu_type": 1002,
+      "ui_type": "LastModifiedTime",
+      "description": "最后修改时间",
+      "property": {}
+    }
+  },
+  "field_definitions": {
+    "task_table": {
+      "table_name": "任务跟踪",
+      "description": "项目管理中的任务跟踪表，包含优先级自动分配和逾期预警功能",
+      "fields": [
+        {
+          "field_name": "任务名称",
+          "business_type": "text",
+          "required": true,
+          "description": "任务标题"
+        },
+        {
+          "field_name": "优先级",
+          "business_type": "single_select",
+          "required": true,
+          "description": "任务优先级：低/中/高",
+          "property": {
+            "options": [
+              {"name": "低", "color": 0},
+              {"name": "中", "color": 2},
+              {"name": "高", "color": 4}
+            ]
+          }
+        },
+        {
+          "field_name": "负责人",
+          "business_type": "user",
+          "required": false,
+          "description": "分配的具体成员"
+        },
+        {
+          "field_name": "状态",
+          "business_type": "single_select",
+          "required": true,
+          "description": "任务状态：待分配/进行中/已完成",
+          "property": {
+            "options": [
+              {"name": "待分配", "color": 1},
+              {"name": "进行中", "color": 2},
+              {"name": "已完成", "color": 0}
+            ]
+          }
+        },
+        {
+          "field_name": "截止日期",
+          "business_type": "date",
+          "required": true,
+          "description": "任务完成期限"
+        },
+        {
+          "field_name": "逾期提醒",
+          "business_type": "formula",
+          "required": false,
+          "description": "自动计算是否逾期",
+          "property": {
+            "formula_expression": "IF(AND({状态}=\"进行中\", {截止日期}<TODAY()), \"已逾期\", \"正常\")"
+          }
+        },
+        {
+          "field_name": "逾期天数",
+          "business_type": "formula",
+          "required": false,
+          "description": "计算逾期天数",
+          "property": {
+            "formula_expression": "IF(AND({状态}=\"进行中\", {截止日期}<TODAY()), DAYS(TODAY(), {截止日期}), 0)"
+          }
+        },
+        {
+          "field_name": "备注",
+          "business_type": "text",
+          "required": false,
+          "description": "任务备注信息"
+        },
+        {
+          "field_name": "所属项目",
+          "business_type": "lookup",
+          "required": false,
+          "description": "关联项目表"
+        },
+        {
+          "field_name": "附件",
+          "business_type": "attachment",
+          "required": false,
+          "description": "任务相关附件"
+        },
+        {
+          "field_name": "创建时间",
+          "business_type": "created_time",
+          "required": false,
+          "description": "记录创建时间"
+        },
+        {
+          "field_name": "更新时间",
+          "business_type": "modified_time",
+          "required": false,
+          "description": "最后修改时间"
+        }
+      ]
+    },
+    "project_table": {
+      "table_name": "项目管理",
+      "description": "项目基本信息表",
+      "fields": [
+        {
+          "field_name": "项目名称",
+          "business_type": "text",
+          "required": true,
+          "description": "项目名称"
+        },
+        {
+          "field_name": "项目负责人",
+          "business_type": "user",
+          "required": true,
+          "description": "项目负责人"
+        },
+        {
+          "field_name": "项目状态",
+          "business_type": "single_select",
+          "required": true,
+          "description": "项目状态",
+          "property": {
+            "options": [
+              {"name": "筹备中", "color": 1},
+              {"name": "进行中", "color": 2},
+              {"name": "已完成", "color": 0},
+              {"name": "已暂停", "color": 3}
+            ]
+          }
+        },
+        {
+          "field_name": "开始日期",
+          "business_type": "date",
+          "required": true,
+          "description": "项目开始日期"
+        },
+        {
+          "field_name": "结束日期",
+          "business_type": "date",
+          "required": true,
+          "description": "项目结束日期"
+        },
+        {
+          "field_name": "项目描述",
+          "business_type": "text",
+          "required": false,
+          "description": "项目详细描述"
+        },
+        {
+          "field_name": "参与成员",
+          "business_type": "multi_user",
+          "required": false,
+          "description": "项目参与成员"
+        },
+        {
+          "field_name": "任务总数",
+          "business_type": "formula",
+          "required": false,
+          "description": "关联任务数量",
+          "property": {
+            "formula_expression": "COUNTALL({任务跟踪.所属项目})"
+          }
+        },
+        {
+          "field_name": "进行中任务",
+          "business_type": "formula",
+          "required": false,
+          "description": "进行中的任务数",
+          "property": {
+            "formula_expression": "IFERROR(COUNTIF({任务跟踪.所属项目}, {任务跟踪.状态}=\"进行中\"), 0)"
+          }
+        },
+        {
+          "field_name": "完成进度",
+          "business_type": "formula",
+          "required": false,
+          "description": "项目完成百分比",
+          "property": {
+            "formula_expression": "IF({任务总数}>0, ({任务总数}-{进行中任务})/{任务总数}*100, 0)"
+          }
+        }
+      ]
+    },
+    "todo_table": {
+      "table_name": "待办事项",
+      "description": "跟进任务和待办事项表",
+      "fields": [
+        {
+          "field_name": "待办名称",
+          "business_type": "text",
+          "required": true,
+          "description": "待办事项标题"
+        },
+        {
+          "field_name": "负责人",
+          "business_type": "user",
+          "required": true,
+          "description": "待办负责人"
+        },
+        {
+          "field_name": "截止日期",
+          "business_type": "date",
+          "required": true,
+          "description": "待办截止日期"
+        },
+        {
+          "field_name": "状态",
+          "business_type": "single_select",
+          "required": true,
+          "description": "待办状态",
+          "property": {
+            "options": [
+              {"name": "待处理", "color": 1},
+              {"name": "已完成", "color": 0}
+            ]
+          }
+        },
+        {
+          "field_name": "关联任务",
+          "business_type": "lookup",
+          "required": false,
+          "description": "关联的原任务"
+        },
+        {
+          "field_name": "创建时间",
+          "business_type": "created_time",
+          "required": false,
+          "description": "创建时间"
+        }
+      ]
+    },
+    "member_rotation_table": {
+      "table_name": "成员轮值表",
+      "description": "用于高优先级任务自动分配的成员轮值顺序",
+      "fields": [
+        {
+          "field_name": "成员名称",
+          "business_type": "user",
+          "required": true,
+          "description": "团队成员"
+        },
+        {
+          "field_name": "轮值顺序",
+          "business_type": "number",
+          "required": true,
+          "description": "轮值优先级顺序"
+        },
+        {
+          "field_name": "当前任务数",
+          "business_type": "number",
+          "required": false,
+          "description": "当前已分配任务数"
+        },
+        {
+          "field_name": "是否启用",
+          "business_type": "checkbox",
+          "required": false,
+          "description": "是否参与轮值"
+        }
+      ]
+    }
+  }
+}

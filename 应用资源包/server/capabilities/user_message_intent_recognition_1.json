@@ -1,0 +1,46 @@
+{
+  "id": "user_message_intent_recognition_1",
+  "pluginKey": "@official-plugins/ai-categorization",
+  "pluginVersion": "1.0.17",
+  "name": "用户消息意图识别",
+  "description": "解析用户消息内容，自动识别用户意图分类，如任务创建、进度查询、知识库查询等场景。",
+  "icon": "",
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "user_message": {
+        "type": "string",
+        "description": "待识别意图的用户输入消息文本"
+      }
+    },
+    "required": [
+      "user_message"
+    ]
+  },
+  "formValue": {
+    "categories": [
+      {
+        "name": "任务创建"
+      },
+      {
+        "name": "进度查询"
+      },
+      {
+        "name": "知识库查询"
+      },
+      {
+        "name": "其他请求"
+      }
+    ],
+    "customRequirements": "请准确识别用户消息的核心意图，若消息内容同时包含多个意图，优先识别最主要的那个意图分类。",
+    "modelID": "87",
+    "modelParams": {
+      "maxTokens": 8192,
+      "temperature": 0.5
+    },
+    "textToBeCategorized": "{{input.user_message}}"
+  },
+  "createdAt": 1778209426697,
+  "updatedAt": 1778209426697,
+  "createdBy": 7116926511868805123
+}

@@ -1,0 +1,373 @@
+{
+  "automation_rules": {
+    "notification_rules": {
+      "task_notifications": [
+        {
+          "id": "ntf_001",
+          "name": "高优先级任务创建通知",
+          "trigger": "record_created",
+          "table": "task_table",
+          "conditions": [
+            {"field": "优先级", "operator": "equals", "value": "高"}
+          ],
+          "actions": [
+            {
+              "type": "send_message",
+              "target": "assigned_member",
+              "content": "【高优先级任务提醒】\n任务：{任务名称}\n优先级：高\n截止时间：{截止日期}\n请尽快处理！\n点击直达：{记录链接}",
+              "variables": ["任务名称", "截止日期", "记录链接"]
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "id": "ntf_002",
+          "name": "任务逾期预警通知",
+          "trigger": "schedule",
+          "cron": "0 9 * * *",
+          "table": "task_table",
+          "filter": {
+            "conjunction": "AND",
+            "conditions": [
+              {"field": "状态", "operator": "equals", "value": "进行中"},
+              {"field": "截止日期", "operator": "less_than", "value": "{{TODAY}}"}
+            ]
+          },
+          "actions": [
+            {
+              "type": "send_interactive_card",
+              "target": "assigned_member",
+              "content": "【任务逾期预警】\n任务：{任务名称}\n负责人：{负责人}\n逾期天数：{逾期天数}天\n请立即处理！",
+              "variables": ["任务名称", "负责人", "逾期天数", "记录链接"],
+              "card": {
+                "header": {
+                  "title": "⚠️ 任务逾期预警",
+                  "color": "red"
+                },
+                "elements": [
+                  {"tag": "div", "text": "任务「{任务名称}」已逾期 **{逾期天数}** 天，请及时处理！"}
+                ],
+                "actions": [
+                  {
+                    "tag": "button",
+                    "text": {"content": "立即处理", "tag": "plain_text"},
+                    "type": "primary",
+                    "url": "{记录链接}"
+                  }
+                ]
+              }
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "id": "ntf_003",
+          "name": "任务状态变更通知",
+          "trigger": "record_updated",
+          "table": "task_table",
+          "watch_fields": ["状态"],
+          "actions": [
+            {
+              "type": "send_message",
+              "target": "project_leader",
+              "content": "【任务状态更新】\n任务「{任务名称}」状态已更新为「{状态}」",
+              "variables": ["任务名称", "状态"]
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "id": "ntf_004",
+          "name": "任务分配通知",
+          "trigger": "field_updated",
+          "table": "task_table",
+          "watch_fields": ["负责人"],
+          "conditions": [
+            {"field": "负责人", "operator": "is_not_empty"}
+          ],
+          "actions": [
+            {
+              "type": "send_message",
+              "target": "new_assignee",
+              "content": "【新任务分配】\n您被分配了任务「{任务名称}」\n截止时间：{截止日期}\n优先级：{优先级}",
+              "variables": ["任务名称", "截止日期", "优先级"]
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "project_notifications": [
+        {
+          "id": "ntf_101",
+          "name": "项目进度更新通知",
+          "trigger": "record_updated",
+          "table": "task_table",
+          "conditions": [
+            {"field": "状态", "operator": "equals", "value": "已完成"}
+          ],
+          "actions": [
+            {
+              "type": "send_message",
+              "target": "project_members",
+              "content": "【项目进度更新】\n项目「{项目名称}」已完成 {completed_count} 个任务\n当前进度：{完成进度}%",
+              "variables": ["项目名称", "completed_count", "完成进度"]
+            }
+          ],
+          "enabled": true
+        },
+        {
+          "id": "ntf_102",
+          "name": "项目里程碑通知",
+          "trigger": "formula_trigger",
+          "table": "project_table",
+          "conditions": [
+            {"field": "完成进度", "operator": "greater_than_or_equal", "value": 100}
+          ],
+          "actions": [
+            {
+              "type": "send_interactive_card",
+              "target": "project_leader",
+              "content": "🎉 恭喜！项目「{项目名称}」已完成！",
+              "variables": ["项目名称"],
+              "card": {
+                "header": {
+                  "title": "🎉 项目完成",
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "enabled": true
+        }
+      ],
+      "milestone_notifications": []
+    },
+    "permission_rules": {
+      "task_permissions": [
+        {
+          "id": "perm_001",
+          "name": "任务创建权限控制",
+          "description": "只有团队成员可以创建任务",
+          "table": "task_table",
+          "action": "create",
+          "allowed_roles": ["team_member", "admin"],
+          "enabled": true
+        },
+        {
+          "id": "perm_002",
+          "name": "任务删除权限控制",
+          "description": "只有任务负责人或管理员可以删除任务",
+          "table": "task_table",
+          "action": "delete",
+          "conditions": [
+            {"field": "负责人", "operator": "is_current_user"}
+          ],
+          "allowed_roles": ["admin"],
+          "fallback_message": "只有任务负责人或管理员可以删除任务"
+        },
+        {
+          "id": "perm_003",
+          "name": "敏感字段编辑权限",
+          "description": "只有管理员可以编辑优先级字段",
+          "table": "task_table",
+          "action": "update",
+          "fields": ["优先级"],
+          "allowed_roles": ["admin"]
+        }
+      ],
+      "project_permissions": [
+        {
+          "id": "perm_101",
+          "name": "项目查看权限",
+          "description": "项目成员可以查看项目详情",
+          "table": "project_table",
+          "action": "read",
+          "conditions": [
+            {"field": "参与成员", "operator": "contains", "value": "{{current_user}}"}
+          ]
+        }
+      ]
+    },
+    "data_linkage_rules": {
+      "automatic_calculations": [
+        {
+          "id": "calc_001",
+          "name": "自动计算逾期天数",
+          "table": "task_table",
+          "target_field": "逾期天数",
+          "formula": "IF(AND({状态}=\"进行中\", {截止日期}<TODAY()), DAYS(TODAY(), {截止日期}), 0)",
+          "trigger_fields": ["状态", "截止日期"],
+          "enabled": true
+        },
+        {
+          "id": "calc_002",
+          "name": "自动计算逾期提醒",
+          "table": "task_table",
+          "target_field": "逾期提醒",
+          "formula": "IF(AND({状态}=\"进行中\", {截止日期}<TODAY()), \"已逾期\", IF({状态}=\"已完成\", \"已完成\", \"正常\"))",
+          "trigger_fields": ["状态", "截止日期"],
+          "enabled": true
+        },
+        {
+          "id": "calc_003",
+          "name": "自动计算项目任务总数",
+          "table": "project_table",
+          "target_field": "任务总数",
+          "formula": "COUNTIF({任务跟踪.所属项目}={项目名称})",
+          "trigger_fields": ["项目名称"],
+          "enabled": true
+        },
+        {
+          "id": "calc_004",
+          "name": "自动计算进行中任务数",
+          "table": "project_table",
+          "target_field": "进行中任务",
+          "formula": "COUNTIFS({任务跟踪.所属项目}={项目名称}, {任务跟踪.状态}=\"进行中\")",
+          "trigger_fields": ["项目名称"],
+          "enabled": true
+        },
+        {
+          "id": "calc_005",
+          "name": "自动计算项目完成进度",
+          "table": "project_table",
+          "target_field": "完成进度",
+          "formula": "IF({任务总数}>0, ({任务总数}-{进行中任务})/{任务总数}*100, 0)",
+          "trigger_fields": ["任务总数", "进行中任务"],
+          "enabled": true
+        }
+      ],
+      "field_sync_rules": [
+        {
+          "id": "sync_001",
+          "name": "同步任务状态到待办",
+          "source_table": "task_table",
+          "target_table": "todo_table",
+          "sync_direction": "source_to_target",
+          "trigger": "record_updated",
+          "watch_fields": ["状态"],
+          "field_mappings": [
+            {"source": "状态", "target": "状态", "transform": "same"}
+          ],
+          "enabled": false
+        }
+      ],
+      "conditional_updates": [
+        {
+          "id": "cond_001",
+          "name": "高优先级任务自动标记",
+          "table": "task_table",
+          "trigger": "record_created",
+          "conditions": [
+            {"field": "优先级", "operator": "equals", "value": "高"}
+          ],
+          "updates": [
+            {"field": "状态", "value": "进行中"}
+          ],
+          "enabled": true
+        },
+        {
+          "id": "cond_002",
+          "name": "逾期自动更新备注",
+          "table": "task_table",
+          "trigger": "schedule",
+          "cron": "0 8 * * *",
+          "conditions": [
+            {"field": "状态", "operator": "equals", "value": "进行中"},
+            {"field": "截止日期", "operator": "less_than", "value": "{{TODAY}}"}
+          ],
+          "updates": [
+            {"field": "备注", "operation": "append", "value": "\n[{时间戳}] [系统] 任务已逾期，请负责人尽快处理！"}
+          ],
+          "enabled": true
+        }
+      ]
+    },
+    "webhook_integration": {
+      "outgoing_webhooks": [
+        {
+          "id": "webhook_001",
+          "name": "任务状态变更Webhook",
+          "trigger": "record_updated",
+          "table": "task_table",
+          "watch_fields": ["状态", "负责人"],
+          "url": "{{WEBHOOK_URL}}",
+          "method": "POST",
+          "payload_template": {
+            "event": "task_status_changed",
+            "data": {
+              "task_name": "{任务名称}",
+              "status": "{状态}",
+              "assignee": "{负责人}",
+              "due_date": "{截止日期}",
+              "timestamp": "{{TIMESTAMP}}"
+            }
+          },
+          "enabled": false
+        }
+      ],
+      "incoming_webhooks": [
+        {
+          "id": "webhook_101",
+          "name": "外部系统任务创建",
+          "description": "接收外部系统创建的任务",
+          "endpoint": "/webhook/task/create",
+          "auth": "signature",
+          "actions": [
+            {
+              "type": "create_record",
+              "table": "task_table",
+              "field_mappings": [
+                {"source": "task_name", "target": "任务名称"},
+                {"source": "priority", "target": "优先级"},
+                {"source": "due_date", "target": "截止日期"}
+              ]
+            }
+          ],
+          "enabled": false
+        }
+      ]
+    },
+    "schedule_config": {
+      "daily_tasks": [
+        {
+          "id": "sched_001",
+          "name": "逾期任务早间检查",
+          "schedule": "0 9 * * *",
+          "description": "每天早上9点检查逾期任务并发送预警",
+          "actions": [
+            {"type": "query", "filter": {"状态": "进行中", "截止日期": {"$lt": "{{TODAY}}"}}},
+            {"type": "send_batch_notification", "template": "overdue_task_warning"}
+          ]
+        },
+        {
+          "id": "sched_002",
+          "name": "项目进度周报",
+          "schedule": "0 10 * * 1",
+          "description": "每周一早上10点发送项目进度周报",
+          "actions": [
+            {"type": "query", "table": "project_table"},
+            {"type": "send_notification", "target": "project_leader", "template": "weekly_progress_report"}
+          ]
+        }
+      ]
+    },
+    "rotation_rules": {
+      "member_assignment": {
+        "id": "rot_001",
+        "name": "高优先级任务轮值分配",
+        "description": "当高优先级任务负责人为空时，自动分配给轮值顺序中的下一位成员",
+        "source_table": "member_rotation_table",
+        "filter": {"是否启用": true},
+        "order_by": "轮值顺序",
+        "assignment_logic": "round_robin",
+        "max_tasks_per_member": 5,
+        "conditions": [
+          {"field": "优先级", "operator": "equals", "value": "高"},
+          {"field": "负责人", "operator": "is_empty"}
+        ],
+        "update_field": "负责人",
+        "enabled": true
+      }
+    }
+  }
+}

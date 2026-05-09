@@ -1,0 +1,294 @@
+{
+  "version": "7.0",
+  "description": "飞书智能项目管理技能V7.0 - 合规驱动的操作模板库",
+  "core_concept": "项目管理操作模板 + 合规校验 = 合规驱动的项目管理闭环",
+  
+  "operation_templates": [
+    {
+      "template_id": "tpl_supplier_onboard",
+      "scene_name": "新供应商导入",
+      "trigger_conditions": ["供应商", "合同", "导入", "新增供应商"],
+      "operation_steps": [
+        "1. 提取{供应商名称}和{合作类型}",
+        "2. 🔍【合规检查】扫描合同承诺用语：保证、最优、独家等",
+        "3. 校验供应商资质文件",
+        "4. 提交采购部审核",
+        "5. 通知采购负责人{采购负责人}"
+      ],
+      "compliance_checkpoint": "步骤2（合同承诺用语校验）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["保证供货", "最优价格", "独家供应"],
+      "extracted_fields": ["供应商名称", "合作类型", "合同金额", "付款条款"],
+      "applicable_departments": ["采购部", "法务部"],
+      "status": "启用",
+      "priority": 1
+    },
+    {
+      "template_id": "tpl_product_listing",
+      "scene_name": "产品上架审核",
+      "trigger_conditions": ["上架", "产品", "审核", "新品"],
+      "operation_steps": [
+        "1. 提取{产品名称}和{产品描述}",
+        "2. 🔍【合规检查】扫描材质宣称和功效用语",
+        "3. 校验产品标签合规性",
+        "4. 提交品质部审核",
+        "5. 更新产品上架状态"
+      ],
+      "compliance_checkpoint": "步骤2（产品描述合规、材质宣称合规）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["100%纯棉", "防过敏", "顶级工艺", "最佳面料"],
+      "extracted_fields": ["产品名称", "产品描述", "材质成分", "目标客群"],
+      "applicable_departments": ["产品开发", "品质部", "法务"],
+      "status": "启用",
+      "priority": 1
+    },
+    {
+      "template_id": "tpl_customer_contract",
+      "scene_name": "客户合同签署",
+      "trigger_conditions": ["合同", "客户", "签署", "订单"],
+      "operation_steps": [
+        "1. 提取{客户名称}和{合同金额}",
+        "2. 🔍【合规检查】扫描交付承诺、排他条款",
+        "3. 法务合规审查",
+        "4. 生成审批工单",
+        "5. 通知客户签署"
+      ],
+      "compliance_checkpoint": "步骤2（交付承诺合规、排他条款检查）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["保证交付", "独家合作", "最优服务"],
+      "extracted_fields": ["客户名称", "合同金额", "交付期限", "服务内容"],
+      "applicable_departments": ["销售部", "法务部"],
+      "status": "启用",
+      "priority": 1
+    },
+    {
+      "template_id": "tpl_quarterly_review",
+      "scene_name": "季度复盘",
+      "trigger_conditions": ["复盘", "总结", "季度", "回顾"],
+      "operation_steps": [
+        "1. 收集本季度项目数据",
+        "2. 分析关键指标达成情况",
+        "3. 识别改进机会",
+        "4. 制定下季度计划"
+      ],
+      "compliance_checkpoint": "无（内部流程）",
+      "compliance_context": "内部",
+      "associated_terms": [],
+      "extracted_fields": ["项目名称", "完成率", "问题点", "改进措施"],
+      "applicable_departments": ["项目管理部", "各业务部门"],
+      "status": "启用",
+      "priority": 3
+    },
+    {
+      "template_id": "tpl_sample_review",
+      "scene_name": "样品评审",
+      "trigger_conditions": ["样品", "评审", "打样", "样衣"],
+      "operation_steps": [
+        "1. 提取{样品名称}和{评审意见}",
+        "2. 🔍【合规检查】样品描述避免过度承诺",
+        "3. 品质部评审",
+        "4. 反馈供应商改进"
+      ],
+      "compliance_checkpoint": "步骤2（样品描述避免过度承诺）",
+      "compliance_context": "对外低敏感",
+      "associated_terms": ["保证品质", "完美", "无瑕疵"],
+      "extracted_fields": ["样品名称", "样品类型", "评审意见", "改进要求"],
+      "applicable_departments": ["品质部", "采购部"],
+      "status": "启用",
+      "priority": 2
+    },
+    {
+      "template_id": "tpl_delivery_change",
+      "scene_name": "交期变更通知",
+      "trigger_conditions": ["交期", "变更", "延期", "调整"],
+      "operation_steps": [
+        "1. 提取{原交期}和{新交期}",
+        "2. 🔍【合规检查】避免承诺性用语",
+        "3. 通知客户并确认",
+        "4. 更新项目计划"
+      ],
+      "compliance_checkpoint": "步骤2（避免承诺性用语）",
+      "compliance_context": "对外低敏感",
+      "associated_terms": ["准时", "保证", "一定"],
+      "extracted_fields": ["项目名称", "原交期", "新交期", "变更原因"],
+      "applicable_departments": ["项目管理部", "销售部"],
+      "status": "启用",
+      "priority": 2
+    },
+    {
+      "template_id": "tpl_requirement_confirm",
+      "scene_name": "需求确认",
+      "trigger_conditions": ["需求", "确认", "需求文档"],
+      "operation_steps": [
+        "1. 提取{需求内容}和{客户承诺}",
+        "2. 🔍【合规检查】客户承诺是否超出法规许可",
+        "3. 技术可行性评估",
+        "4. 签署需求确认书"
+      ],
+      "compliance_checkpoint": "步骤2（客户承诺合规性检查）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["保证", "承诺", "一定做到"],
+      "extracted_fields": ["需求名称", "需求描述", "客户承诺", "技术约束"],
+      "applicable_departments": ["产品部", "技术部", "法务"],
+      "status": "启用",
+      "priority": 1
+    },
+    {
+      "template_id": "tpl_plan_design",
+      "scene_name": "方案设计",
+      "trigger_conditions": ["方案", "设计", "提案"],
+      "operation_steps": [
+        "1. 提取{方案内容}和{方案描述}",
+        "2. 🔍【合规检查】对外方案宣称用语",
+        "3. 内部评审",
+        "4. 提交客户确认"
+      ],
+      "compliance_checkpoint": "步骤2（对外方案宣称用语合规）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["顶级", "最优", "第一"],
+      "extracted_fields": ["方案名称", "方案内容", "交付物", "时间计划"],
+      "applicable_departments": ["产品部", "技术部"],
+      "status": "启用",
+      "priority": 2
+    },
+    {
+      "template_id": "tpl_execution_check",
+      "scene_name": "执行中检查",
+      "trigger_conditions": ["执行", "过程", "采购订单", "供应商合同"],
+      "operation_steps": [
+        "1. 提取{执行内容}和{合同条款}",
+        "2. 🔍【合规检查】合同提交前强制合规扫描",
+        "3. 执行进度跟踪",
+        "4. 记录执行日志"
+      ],
+      "compliance_checkpoint": "步骤2（合同/采购订单合规扫描）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["保证", "独家", "最优"],
+      "extracted_fields": ["合同编号", "合同内容", "执行状态", "风险点"],
+      "applicable_departments": ["采购部", "项目管理部"],
+      "status": "启用",
+      "priority": 1
+    },
+    {
+      "template_id": "tpl_acceptance",
+      "scene_name": "验收",
+      "trigger_conditions": ["验收", "交付", "完成"],
+      "operation_steps": [
+        "1. 提取{交付物}和{验收标准}",
+        "2. 🔍【合规检查】产品标签、宣传物料",
+        "3. 质量验收",
+        "4. 出具验收报告"
+      ],
+      "compliance_checkpoint": "步骤2（交付物合规性检查）",
+      "compliance_context": "对外高敏感",
+      "associated_terms": ["100%", "顶级", "最佳"],
+      "extracted_fields": ["项目名称", "交付物清单", "验收标准", "验收结果"],
+      "applicable_departments": ["品质部", "项目管理部"],
+      "status": "启用",
+      "priority": 1
+    }
+  ],
+
+  "compliance_context_levels": {
+    "对外高敏感": {
+      "level": 4,
+      "description": "对外合同、宣传物料等，需逐字审核",
+      "processing_mode": "强制合规",
+      "auto_action": "暂停+人工审核"
+    },
+    "对外低敏感": {
+      "level": 3,
+      "description": "对外沟通但非正式文件，自动替换+通知",
+      "processing_mode": "合规降级",
+      "auto_action": "自动替换+通知"
+    },
+    "内部": {
+      "level": 2,
+      "description": "内部沟通，降低合规检查强度",
+      "processing_mode": "合规降级",
+      "auto_action": "标记+通知"
+    },
+    "无需检查": {
+      "level": 1,
+      "description": "内部技术讨论等，无需合规检查",
+      "processing_mode": "跳过",
+      "auto_action": "正常执行"
+    }
+  },
+
+  "project_node_compliance_checkpoints": [
+    {
+      "phase": "需求确认",
+      "checkpoint_name": "需求文档合规",
+      "check_content": "客户承诺是否超出法规许可",
+      "check_method": "自动+人工",
+      "fail_action": "标记高风险条款，暂停推进",
+      "associated_templates": ["tpl_requirement_confirm"],
+      "status": "启用"
+    },
+    {
+      "phase": "方案设计",
+      "checkpoint_name": "方案描述合规",
+      "check_content": "对外方案中的宣称用语",
+      "check_method": "自动扫描",
+      "fail_action": "自动替换违规词，通知PM",
+      "associated_templates": ["tpl_plan_design"],
+      "status": "启用"
+    },
+    {
+      "phase": "执行中",
+      "checkpoint_name": "过程文件合规",
+      "check_content": "供应商合同、采购订单",
+      "check_method": "强制合规扫描",
+      "fail_action": "合同提交前强制修正",
+      "associated_templates": ["tpl_execution_check", "tpl_supplier_onboard"],
+      "status": "启用"
+    },
+    {
+      "phase": "验收",
+      "checkpoint_name": "交付物合规",
+      "check_content": "产品标签、宣传物料",
+      "check_method": "自动+人工",
+      "fail_action": "不合规不允许验收通过",
+      "associated_templates": ["tpl_acceptance", "tpl_product_listing"],
+      "status": "启用"
+    },
+    {
+      "phase": "完成",
+      "checkpoint_name": "归档合规",
+      "check_content": "全流程文档合规追溯",
+      "check_method": "自动生成报告",
+      "fail_action": "生成合规审计报告",
+      "associated_templates": ["tpl_quarterly_review"],
+      "status": "启用"
+    }
+  ],
+
+  "feedback_loop_rules": {
+    "commands": [
+      {
+        "command": "#修正",
+        "action": "修正操作模板",
+        "example": "#修正 供应商合同审核",
+        "update_table": "操作模板库"
+      },
+      {
+        "command": "#合规",
+        "action": "修正合规替换词",
+        "example": "#合规 100%纯棉",
+        "update_table": "合规术语词库"
+      },
+      {
+        "command": "#关联",
+        "action": "关联操作模板与合规词",
+        "example": "#关联 供应商合同+保证",
+        "update_table": "双向关联表"
+      }
+    ],
+    "processing": {
+      "auto_record": true,
+      "weekly_report": true,
+      "optimization_threshold": 5
+    }
+  }
+}

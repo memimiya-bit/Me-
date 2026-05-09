@@ -1,0 +1,315 @@
+{
+  "version": "4.0",
+  "description": "飞书项目管理技能迭代方案 - 实用导向的岗位技能赋能体系",
+  "core_concept": "技能即生产力，场景即战场",
+  
+  "skill_value_chain": {
+    "layers": [
+      {"name": "problem", "description": "问题/需求"},
+      {"name": "solution", "description": "解决方案"},
+      {"name": "toolkit", "description": "技能工具包"},
+      {"name": "result", "description": "实战成果"}
+    ]
+  },
+
+  "problem_diagnosis": {
+    "dimensions": ["efficiency", "quality", "communication", "risk"],
+    "scope": ["personal", "team", "department", "company"],
+    "urgency": ["high", "medium", "low"],
+    "complexity": ["simple", "medium", "complex"]
+  },
+
+  "skill_matching": {
+    "formula": "skill_match_score = (problem_relevance * 0.4 + user_proficiency * 0.3 + implementation_cost * 0.2 + expected_benefit * 0.1) * 100"
+  },
+
+  "skill_matrix": {
+    "project_kickoff": {
+      "skill_name": "项目启动技能包",
+      "target": "30分钟内完成新项目标准化启动",
+      "applicable_roles": ["项目经理", "部门负责人", "项目协调员"],
+      "core_skills": [
+        {
+          "skill_id": "skill_charter_gen_v1",
+          "skill_name": "项目章程智能生成",
+          "description": "基于历史项目数据自动生成项目章程",
+          "tools": ["飞书多维表格", "AI助手", "知识库"],
+          "steps": [
+            "选择项目类型模板",
+            "输入核心参数（预算/时间/团队）",
+            "AI生成初稿，人工调整确认"
+          ],
+          "practice_path": ["创建10万预算项目", "创建50万跨部门项目"],
+          "success_metric": "立项周期缩短50%"
+        },
+        {
+          "skill_id": "skill_dependency_v2",
+          "skill_name": "依赖路径快速分析",
+          "description": "自动识别项目关键依赖和风险点",
+          "tools": ["依赖路径图", "风险热力图"],
+          "steps": [
+            "输入关键里程碑",
+            "系统自动识别依赖关系",
+            "人工确认并设置预警阈值"
+          ],
+          "practice_path": ["单团队项目分析", "跨3部门项目分析"],
+          "success_metric": "关键依赖识别率100%"
+        },
+        {
+          "skill_id": "skill_resource_preemption",
+          "skill_name": "资源预占与协调",
+          "description": "智能规划资源使用时间窗",
+          "tools": ["资源日历", "冲突检测器"],
+          "steps": [
+            "识别关键资源",
+            "计算可用时间窗",
+            "生成资源协调方案"
+          ],
+          "success_metric": "资源冲突减少60%"
+        }
+      ],
+      "best_practices": [
+        {
+          "case_name": "产品上线项目启动优化",
+          "pain_point": "原启动流程耗时2周，经常遗漏关键依赖",
+          "solution": "使用智能章程生成+依赖分析，1小时内完成",
+          "effect": "启动时间缩短95%，关键依赖识别率100%"
+        }
+      ]
+    },
+
+    "progress_control": {
+      "skill_name": "进度管控技能包",
+      "target": "实时掌控跨部门协作进度",
+      "applicable_roles": ["项目经理", "项目助理", "部门负责人"],
+      "core_skills": [
+        {
+          "skill_id": "skill_dependency_viz",
+          "skill_name": "依赖路径可视化",
+          "description": "实时展示项目依赖关系图",
+          "tools": ["甘特图", "依赖关系图", "飞书多维表格"],
+          "steps": [
+            "配置里程碑节点",
+            "建立依赖关系",
+            "生成可视化图表"
+          ],
+          "success_metric": "延期率下降40%"
+        },
+        {
+          "skill_id": "skill_smart_alert",
+          "skill_name": "智能进度预警",
+          "description": "基于数据分析的智能风险预警",
+          "tools": ["预警机器人", "飞书消息"],
+          "steps": [
+            "设置预警规则",
+            "配置预警阈值",
+            "启用自动化通知"
+          ],
+          "success_metric": "风险发现提前3天以上"
+        },
+        {
+          "skill_id": "skill_bottleneck",
+          "skill_name": "瓶颈智能识别",
+          "description": "AI识别项目执行瓶颈",
+          "tools": ["瓶颈分析引擎", "优化建议生成器"],
+          "steps": [
+            "收集执行数据",
+            "AI分析瓶颈",
+            "生成优化方案"
+          ],
+          "success_metric": "执行效率提升30%"
+        }
+      ]
+    },
+
+    "quality_assurance": {
+      "skill_name": "质量保障技能包",
+      "target": "标准化质量审核流程",
+      "applicable_roles": ["QA工程师", "项目经理", "技术负责人"],
+      "core_skills": [
+        {
+          "skill_id": "skill_checklist",
+          "skill_name": "标准检查清单",
+          "description": "可配置的交付物检查标准",
+          "tools": ["检查清单模板", "飞书多维表格"],
+          "steps": [
+            "选择检查模板",
+            "逐项执行检查",
+            "记录问题并跟踪"
+          ],
+          "success_metric": "返工率降低65%"
+        },
+        {
+          "skill_id": "skill_multi_approval",
+          "skill_name": "多级审批流",
+          "description": "可配置的多级审批流程",
+          "tools": ["审批流", "飞书自动化"],
+          "steps": [
+            "设计审批节点",
+            "配置审批规则",
+            "启用自动化流转"
+          ],
+          "success_metric": "审批周期缩短70%"
+        },
+        {
+          "skill_id": "skill_traceability",
+          "skill_name": "质量追溯体系",
+          "description": "全流程质量数据追溯",
+          "tools": ["质量看板", "数据统计"],
+          "steps": [
+            "建立质量指标",
+            "采集过程数据",
+            "生成追溯报告"
+          ],
+          "success_metric": "问题定位时间缩短80%"
+        }
+      ]
+    },
+
+    "risk_response": {
+      "skill_name": "风险应对技能包",
+      "target": "快速响应突发问题",
+      "applicable_roles": ["项目经理", "技术负责人", "应急响应小组"],
+      "core_skills": [
+        {
+          "skill_id": "skill_emergency_response",
+          "skill_name": "应急响应流程",
+          "description": "标准化突发事件处理流程",
+          "tools": ["应急知识库", "响应清单"],
+          "steps": [
+            "识别事件级别",
+            "启动对应流程",
+            "协调资源处理"
+          ],
+          "success_metric": "问题解决提速70%"
+        },
+        {
+          "skill_id": "skill_impact_assessment",
+          "skill_name": "影响范围评估",
+          "description": "AI辅助评估问题影响",
+          "tools": ["影响分析图", "决策树"],
+          "steps": [
+            "输入问题描述",
+            "AI分析影响",
+            "生成处理建议"
+          ],
+          "success_metric": "评估准确率>90%"
+        },
+        {
+          "skill_id": "skill_comm_template",
+          "skill_name": "沟通模板快速响应",
+          "description": "预置各类沟通模板",
+          "tools": ["模板库", "消息机器人"],
+          "steps": [
+            "选择沟通场景",
+            "填入关键信息",
+            "一键发送通知"
+          ],
+          "success_metric": "沟通效率提升50%"
+        }
+      ]
+    },
+
+    "retrospect_optimize": {
+      "skill_name": "复盘优化技能包",
+      "target": "数据驱动的持续改进",
+      "applicable_roles": ["项目经理", "团队负责人", "质量管理"],
+      "core_skills": [
+        {
+          "skill_id": "skill_data_retro",
+          "skill_name": "数据驱动复盘",
+          "description": "基于项目数据的客观复盘",
+          "tools": ["数据看板", "统计图表"],
+          "steps": [
+            "导出项目数据",
+            "生成统计图表",
+            "识别改进点"
+          ],
+          "success_metric": "改进措施落实率85%"
+        },
+        {
+          "skill_id": "skill_experience_extract",
+          "skill_name": "经验萃取",
+          "description": "将项目经验结构化沉淀",
+          "tools": ["知识库", "经验模板"],
+          "steps": [
+            "识别关键经验",
+            "结构化整理",
+            "入库知识库"
+          ],
+          "success_metric": "经验复用率提升60%"
+        },
+        {
+          "skill_id": "skill_improve_track",
+          "skill_name": "改进追踪",
+          "description": "持续跟踪改进措施执行",
+          "tools": ["改进看板", "提醒机器人"],
+          "steps": [
+            "制定改进计划",
+            "分解改进任务",
+            "跟踪执行进度"
+          ],
+          "success_metric": "改进完成率>80%"
+        }
+      ]
+    }
+  },
+
+  "role_skill_mapping": {
+    "项目经理": {
+      "high_frequency_scenarios": ["项目规划", "进度管控", "风险管理"],
+      "required_skills": ["skill_dependency_v2", "skill_smart_alert", "skill_resource_preemption"],
+      "recommended_learning_order": ["skill_charter_gen_v1", "skill_dependency_v2", "skill_smart_alert"],
+      "certification_standard": "独立管理3个并发项目"
+    },
+    "产品经理": {
+      "high_frequency_scenarios": ["需求管理", "版本规划", "跨团队协调"],
+      "required_skills": ["skill_priority_matrix", "skill_roadmap", "skill_dependency_conflict"],
+      "recommended_learning_order": ["skill_priority_matrix", "skill_roadmap", "skill_dependency_conflict"],
+      "certification_standard": "按时交付率>90%"
+    },
+    "技术负责人": {
+      "high_frequency_scenarios": ["任务拆解", "技术风险评估", "进度同步"],
+      "required_skills": ["skill_wbs", "skill_tech_dependency", "skill_code_quality"],
+      "recommended_learning_order": ["skill_wbs", "skill_tech_dependency", "skill_code_quality"],
+      "certification_standard": "任务估算准确率>85%"
+    },
+    "运营专员": {
+      "high_frequency_scenarios": ["活动执行", "数据监控", "问题响应"],
+      "required_skills": ["skill_sop", "skill_dashboard", "skill_emergency"],
+      "recommended_learning_order": ["skill_sop", "skill_dashboard", "skill_emergency"],
+      "certification_standard": "活动执行准确率100%"
+    },
+    "QA工程师": {
+      "high_frequency_scenarios": ["测试计划", "缺陷管理", "质量报告"],
+      "required_skills": ["skill_test_plan", "skill_defect_track", "skill_quality_report"],
+      "recommended_learning_order": ["skill_test_plan", "skill_defect_track", "skill_quality_report"],
+      "certification_standard": "测试覆盖率>95%"
+    }
+  },
+
+  "skill_card_template": {
+    "fields": [
+      "skill_id",
+      "skill_name", 
+      "skill_goal",
+      "applicable_roles",
+      "prerequisites",
+      "tools",
+      "operation_steps",
+      "practice_path",
+      "success_metrics",
+      "difficulty_level"
+    ]
+  },
+
+  "success_metrics": {
+    "project_cycle_reduction": "25%",
+    "meeting_reduction": "40%",
+    "delivery_quality_improvement": "35%",
+    "delay_rate_reduction": "40%",
+    "rework_rate_reduction": "65%",
+    "problem_solving_speed": "70%",
+    "improvement_implementation": "85%"
+  }
+}

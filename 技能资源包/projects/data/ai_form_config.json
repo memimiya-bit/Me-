@@ -1,0 +1,350 @@
+{
+  "version": "v1.0",
+  "description": "AI运维数据智能表单核心字段配置",
+  "last_updated": "2026-01",
+  "field_categories": {
+    "core_fields": {
+      "name": "核心基础字段",
+      "count": 6,
+      "description": "系统自动生成，无需人工维护",
+      "fields": [
+        {
+          "field_id": "record_id",
+          "field_name": "记录ID",
+          "type": "text",
+          "required": true,
+          "auto_generated": true,
+          "description": "记录唯一标识符，UUID格式",
+          "validation": {
+            "pattern": "^[a-f0-9-]{36}$",
+            "message": "必须是有效的UUID格式"
+          }
+        },
+        {
+          "field_id": "create_time",
+          "field_name": "创建时间",
+          "type": "datetime",
+          "required": true,
+          "auto_generated": true,
+          "description": "记录创建时间，自动填充NOW()",
+          "format": "YYYY-MM-DD HH:mm:ss",
+          "timezone": "UTC+8"
+        },
+        {
+          "field_id": "update_time",
+          "field_name": "更新时间",
+          "type": "datetime",
+          "required": true,
+          "auto_generated": true,
+          "description": "最后修改时间，ON UPDATE自动刷新",
+          "format": "YYYY-MM-DD HH:mm:ss"
+        },
+        {
+          "field_id": "creator_id",
+          "field_name": "创建人ID",
+          "type": "user",
+          "required": true,
+          "auto_generated": true,
+          "description": "从登录会话获取创建人ID"
+        },
+        {
+          "field_id": "updater_id",
+          "field_name": "更新人ID",
+          "type": "user",
+          "required": false,
+          "auto_generated": true,
+          "description": "最后操作人ID"
+        },
+        {
+          "field_id": "record_status",
+          "field_name": "记录状态",
+          "type": "single_select",
+          "required": true,
+          "default": "正常",
+          "options": ["正常", "停用", "删除"],
+          "description": "1-正常 2-停用 3-删除"
+        }
+      ]
+    },
+    "classification_fields": {
+      "name": "智能分类字段",
+      "count": 5,
+      "description": "基于规则引擎自动分类",
+      "fields": [
+        {
+          "field_id": "contact_type",
+          "field_name": "对接类型",
+          "type": "single_select",
+          "required": true,
+          "options": ["internal", "upstream", "midstream", "downstream", "service"],
+          "auto_fill": true,
+          "description": "根据对接方名称关键词自动匹配"
+        },
+        {
+          "field_id": "auto_category",
+          "field_name": "自动分类标签",
+          "type": "multi_select",
+          "required": false,
+          "auto_fill": true,
+          "ai_enabled": true,
+          "description": "AI识别标签，NLP分析对接事项关键词"
+        },
+        {
+          "field_id": "industry_tag",
+          "field_name": "行业标签",
+          "type": "multi_select",
+          "required": false,
+          "auto_fill": true,
+          "description": "根据企业名称匹配行业库"
+        },
+        {
+          "field_id": "priority_level",
+          "field_name": "优先级",
+          "type": "number",
+          "required": true,
+          "range": [1, 5],
+          "auto_fill": true,
+          "description": "1-5级，紧急程度+对接频率综合评分",
+          "calculation": "紧急程度权重×0.4 + 对接频率权重×0.3 + 合作状态权重×0.3"
+        },
+        {
+          "field_id": "risk_score",
+          "field_name": "风险评分",
+          "type": "number",
+          "required": false,
+          "range": [0.0, 10.0],
+          "precision": 1,
+          "auto_fill": true,
+          "description": "合作状态+历史记录评估，>7.0触发预警"
+        }
+      ]
+    },
+    "ai_recognition_fields": {
+      "name": "智能识别字段",
+      "count": 6,
+      "description": "AI引擎自动提取，需对接外部AI服务",
+      "fields": [
+        {
+          "field_id": "company_name_raw",
+          "field_name": "企业名称(原始)",
+          "type": "text",
+          "required": true,
+          "description": "用户输入原始数据"
+        },
+        {
+          "field_id": "company_name_clean",
+          "field_name": "企业名称(标准化)",
+          "type": "text",
+          "required": false,
+          "ai_enabled": true,
+          "confidence_threshold": 0.95,
+          "description": "AI清洗标准化企业名称"
+        },
+        {
+          "field_id": "contact_person_ai",
+          "field_name": "联系人(AI识别)",
+          "type": "text",
+          "required": false,
+          "ai_enabled": true,
+          "confidence_threshold": 0.85,
+          "description": "NLP从沟通记录提取联系人姓名"
+        },
+        {
+          "field_id": "phone_ai",
+          "field_name": "电话(AI识别)",
+          "type": "phone",
+          "required": false,
+          "ai_enabled": true,
+          "confidence_threshold": 0.95,
+          "description": "正则+语义双重验证手机号"
+        },
+        {
+          "field_id": "email_ai",
+          "field_name": "邮箱(AI识别)",
+          "type": "email",
+          "required": false,
+          "ai_enabled": true,
+          "confidence_threshold": 0.95,
+          "description": "正则+域名白名单验证邮箱"
+        },
+        {
+          "field_id": "business_scope_ai",
+          "field_name": "业务范围(AI识别)",
+          "type": "multi_select",
+          "required": false,
+          "ai_enabled": true,
+          "confidence_threshold": 0.80,
+          "description": "AI分析企业简介提取业务标签"
+        }
+      ]
+    },
+    "calculation_fields": {
+      "name": "动态计算字段",
+      "count": 6,
+      "description": "基于公式实时计算派生指标",
+      "fields": [
+        {
+          "field_id": "next_contact_date",
+          "field_name": "下次对接日期",
+          "type": "date",
+          "auto_calculated": true,
+          "description": "根据对接频率计算下次对接日期",
+          "formula": "SWITCH(对接频率, 'daily', DATEADD(最后对接日期,1,'day'), 'weekly', DATEADD(最后对接日期,7,'day'), 'monthly', DATEADD(最后对接日期,30,'day'), 'quarterly', DATEADD(最后对接日期,90,'day'), '')"
+        },
+        {
+          "field_id": "days_until_next",
+          "field_name": "距下次对接天数",
+          "type": "number",
+          "auto_calculated": true,
+          "description": "DATEDIFF(下次对接日期, TODAY)",
+          "formula": "IF(ISEMPTY(下次对接日期), '', DATETIME_DIFF(下次对接日期, TODAY(), 'day'))"
+        },
+        {
+          "field_id": "response_time_avg",
+          "field_name": "平均响应时间",
+          "type": "number",
+          "unit": "小时",
+          "auto_calculated": true,
+          "description": "历史响应时间均值"
+        },
+        {
+          "field_id": "cooperation_duration",
+          "field_name": "合作时长(月)",
+          "type": "number",
+          "precision": 1,
+          "auto_calculated": true,
+          "description": "合作时长，精确到月",
+          "formula": "IF(ISEMPTY(首次对接日期), '', DATETIME_DIFF(TODAY(), 首次对接日期, 'day') / 30)"
+        },
+        {
+          "field_id": "contact_count_month",
+          "field_name": "当月对接次数",
+          "type": "number",
+          "auto_calculated": true,
+          "description": "当月对接次数统计"
+        },
+        {
+          "field_id": "sla_breach_count",
+          "field_name": "SLA超时次数",
+          "type": "number",
+          "auto_calculated": true,
+          "description": "SLA超时次数累加"
+        }
+      ]
+    },
+    "relation_fields": {
+      "name": "关系映射字段",
+      "count": 5,
+      "description": "跨表关联和数据一致性保证",
+      "fields": [
+        {
+          "field_id": "dept_id_primary",
+          "field_name": "主责部门",
+          "type": "lookup",
+          "required": false,
+          "linked_table": "departments",
+          "auto_fill": true,
+          "description": "根据对接事项匹配主责部门"
+        },
+        {
+          "field_id": "dept_id_backup",
+          "field_name": "备用部门",
+          "type": "lookup",
+          "required": false,
+          "linked_table": "departments",
+          "description": "根据业务类型推荐备用部门"
+        },
+        {
+          "field_id": "project_ids",
+          "field_name": "关联项目",
+          "type": "lookup_multi",
+          "required": false,
+          "linked_table": "projects",
+          "description": "自动关联相关项目"
+        },
+        {
+          "field_id": "contract_id",
+          "field_name": "合同ID",
+          "type": "lookup",
+          "required": false,
+          "linked_table": "contracts",
+          "auto_fill": true,
+          "description": "根据企业名称匹配最近合同"
+        },
+        {
+          "field_id": "payment_term_id",
+          "field_name": "付款条款",
+          "type": "lookup",
+          "required": false,
+          "linked_table": "payment_terms",
+          "auto_fill": true,
+          "description": "根据合作类型匹配付款条款"
+        }
+      ]
+    },
+    "automation_fields": {
+      "name": "自动化触发字段",
+      "count": 5,
+      "description": "流程控制和执行追踪",
+      "fields": [
+        {
+          "field_id": "trigger_event",
+          "field_name": "触发来源",
+          "type": "single_select",
+          "required": true,
+          "options": ["manual", "system", "ai", "api"],
+          "description": "触发来源，manual/system/ai/api"
+        },
+        {
+          "field_id": "auto_fill_confidence",
+          "field_name": "AI填充置信度",
+          "type": "number",
+          "range": [0.0, 1.0],
+          "precision": 2,
+          "description": "AI填充置信度，仅AI填充时有意义"
+        },
+        {
+          "field_id": "needs_review",
+          "field_name": "需要审核",
+          "type": "checkbox",
+          "required": false,
+          "default": false,
+          "description": "是否需要人工审核"
+        },
+        {
+          "field_id": "last_auto_fill_time",
+          "field_name": "最后自动填充时间",
+          "type": "datetime",
+          "auto_generated": true,
+          "description": "最后自动填充时间，自动维护"
+        },
+        {
+          "field_id": "auto_fill_history",
+          "field_name": "自动填充历史",
+          "type": "text",
+          "required": false,
+          "description": "JSON格式的填充历史记录"
+        }
+      ]
+    }
+  },
+  "total_fields": 33,
+  "auto_fill_rules": {
+    "ai_confidence_levels": {
+      "high": {"min": 0.95, "action": "直接填充，标记已确认"},
+      "medium": {"min": 0.80, "max": 0.94, "action": "填充但标记待审核"},
+      "low": {"min": 0.60, "max": 0.79, "action": "仅提示，人工确认"},
+      "failed": {"max": 0.60, "action": "不填充，标记识别失败"}
+    }
+  },
+  "priority_calculation": {
+    "weights": {
+      "urgency": 0.4,
+      "frequency": 0.3,
+      "cooperation": 0.3
+    },
+    "urgency_values": {"P0": 5, "P1": 4, "P2": 3, "P3": 2, "P4": 1},
+    "frequency_values": {"daily": 5, "weekly": 4, "monthly": 3, "quarterly": 2, "yearly": 1},
+    "cooperation_values": {"战略": 5, "重点": 4, "一般": 3, "观察": 2, "终止": 1}
+  }
+}
